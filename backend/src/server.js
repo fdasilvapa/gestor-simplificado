@@ -1,9 +1,5 @@
-import express from 'express'
-import userRoutes from './routes'
+import app from "./app.js";
 
-const app = express()
-app.use(express.json())
+const PORT = process.env.PORT || 3000;
 
-app.use('/usuarios', userRoutes)
-
-app.listen(3000, () => console.log('Servidor rodando na porta 3000'))
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
