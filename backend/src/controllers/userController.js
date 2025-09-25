@@ -1,19 +1,21 @@
 export const createUser = (req, res) => {
-
-    res.status(200).json({ message: "Usuário criado com sucesso"})
-}
+    // Lógica para criar usuário virá aqui...
+    res.status(201).json({ message: "Usuário criado com sucesso" });
+};
 
 export const getAllUsers = (req, res) => {
-
-    res.status(200).json({ message: "Usuários listados"})
-}
+    // Lógica para listar usuários virá aqui...
+    res.status(200).json({ message: "Usuários listados" });
+};
 
 export const updateUser = (req, res) => {
-
-    res.status(200).json({ message: "Usuário atualizado com sucesso"})
-}
+    const { id } = req.params;
+    // Lógica para atualizar usuário virá aqui...
+    res.status(200).json({ message: `Usuário com ID ${id} atualizado com sucesso` });
+};
 
 export const deleteUser = (req, res) => {
-
-    res.status(200).json({ message: "Usuário deletado com sucesso"})
-}
+    const { id } = req.params;
+    // Lógica para deletar usuário virá aqui...
+    res.status(200).json({ message: `Usuário com ID ${id} deletado com sucesso` });
+};

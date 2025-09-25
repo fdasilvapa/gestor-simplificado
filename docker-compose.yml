@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # 1. Serviço do Banco de Dados (PostgreSQL)
+  database:
+    image: postgres:15-alpine # Imagem oficial e leve do Postgres.
+    container_name: gestor_db # Nome fixo para o container do banco.
+    restart: always # Sempre reiniciar o container se ele parar.
+    environment:
+      # Puxa as variáveis do arquivo .env para configurar o banco.
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      # Mapeia a porta do computador (5432) para a porta do container (5432).
+      - "5432:5432"
+    volumes:
+      # Cria um "volume" para persistir os dados do banco, mesmo que o container seja removido.
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      # Conecta este serviço à nossa rede privada.
+      - gestor-net
+
+  # 2. Serviço do Backend (API Node.js)
+  backend:
+    container_name: gestor_api
+    # Em vez de uma 'image' pronta, vamos construir a nossa a partir de um Dockerfile.
+    build:
+      context: ./backend # Onde está o código fonte e o Dockerfile do backend.
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      # Mapeia a porta do seu computador para a porta da nossa API.
+      - "3000:3000"
+    volumes:
+      # "Espelha" a pasta do seu código local para dentro do container.
+      # Assim, qualquer alteração no código reflete na hora, sem precisar rebuildar.
+      - ./backend:/usr/src/app
+      # Truque para evitar que a node_modules local sobrescreva a do container.
+      - /usr/src/app/node_modules
+    depends_on:
+      # Diz ao Docker para esperar o serviço 'database' estar pronto antes de iniciar o backend.
+      - database
+    environment:
+      # Passa a URL de conexão para o Prisma.
+      # Note que usamos 'database' como host, que é o nome do nosso serviço de banco de dados!
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - gestor-net
+
+  # 3. Serviço do Frontend (React + Vite)
+  frontend:
+    container_name: gestor_web
+    build:
+      context: ./frontend # Onde está o código fonte e o Dockerfile do frontend.
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      # Mapeia a porta do seu computador para a porta do servidor de desenvolvimento do Vite.
+      - "5173:5173"
+    volumes:
+      # Mesmo esquema do backend para refletir as alterações de código em tempo real.
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - gestor-net
+
+# Define as redes que nossos serviços usarão.
+networks:
+  gestor-net:
+    driver: bridge # O driver padrão, que cria uma rede privada para os containers.
+
+# Define os volumes que usamos para persistir dados.
+volumes:
+  pgdata: # O nome do volume que definimos no serviço 'database'.
