@@ -1,0 +1,49 @@
+# Logs e arquivos de depuração
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Variáveis de Ambiente
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Dependências
+node_modules/
+**/node_modules
+
+# Arquivos de Build e Compilação
+dist
+/dist-ssr
+build
+out
+.vite/
+.output/
+
+# Relatórios de Testes e Cobertura de Código
+coverage
+.nyc_output
+
+# Arquivos de Banco de Dados local
+*.sqlite
+*.sqlite-journal
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Arquivos de Configuração de Editores e IDEs
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
