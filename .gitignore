@@ -1,5 +1,8 @@
+# =========================================================================
+# .gitignore Otimizado para Projeto Node.js/React com Docker e Prisma
+# =========================================================================
+
 # Logs e arquivos de depuração
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -15,10 +18,12 @@ pnpm-debug.log*
 .env.*.local
 
 # Dependências
+# As dependências podem ser reinstaladas a partir dos arquivos package.json.
 node_modules/
 **/node_modules
 
 # Arquivos de Build e Compilação
+# Arquivos gerados pelo processo de build (ex: Vite, TypeScript).
 dist
 /dist-ssr
 build
@@ -27,13 +32,10 @@ out
 .output/
 
 # Relatórios de Testes e Cobertura de Código
-coverage
+coverage/
 .nyc_output
 
-# Arquivos de Banco de Dados local
-*.sqlite
-*.sqlite-journal
-
+# Arquivos gerados pelo Sistema Operacional
 # Windows
 Thumbs.db
 ehthumbs.db
@@ -47,3 +49,7 @@ Desktop.ini
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
