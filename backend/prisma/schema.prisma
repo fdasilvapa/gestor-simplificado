@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,10 +9,69 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
+  email     String   @unique  @db.VarChar(255)
+  name      String?  @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  products  Product[]
+  expenses  Expense[]
+  sales     Sale[]
 }
 
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  description Text?     @db.Text
+  price       Decimal   @db.Decimal(10, 2)
+
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int      
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  saleItems   SaleItem[]
+}
+
+model Expense {
+  id          Int       @id @default(autoincrement())
+  description String    @db.VarChar(255)
+  category    String?   @db.VarChar(255)
+  amount      Decimal   @db.Decimal(10, 2)
+  date        DateTime
+
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int           
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Sale {
+  id          Int       @id @default(autoincrement())
+  totalAmount Decimal   @db.Decimal(10, 2)
+  saleDate    DateTime
+
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  items       SaleItem[]
+}
+
+model SaleItem {
+  id          Int      @id @default(autoincrement())
+  quantity    Int
+  priceAtSale Decima   @db.Decimal(10, 2)
+
+  sale        Sale     @relation(fields: [saleId], references: [id])
+  saleId      Int
+  
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   Int
+}
