@@ -24,7 +24,7 @@ model User {
 model Product {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(255)
-  description Text?     @db.Text
+  description String?     @db.Text
   price       Decimal   @db.Decimal(10, 2)
 
   user        User      @relation(fields: [userId], references: [id])
@@ -67,7 +67,7 @@ model Sale {
 model SaleItem {
   id          Int      @id @default(autoincrement())
   quantity    Int
-  priceAtSale Decima   @db.Decimal(10, 2)
+  priceAtSale Decimal  @db.Decimal(10, 2)
 
   sale        Sale     @relation(fields: [saleId], references: [id])
   saleId      Int
