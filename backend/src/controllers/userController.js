@@ -3,7 +3,7 @@ import * as userService from '../services/userService.js';
 export const createUser = async (req, res) => {
     try {
         const newUser = await userService.register(req.body);
-        res.status(201).json({ message: "Usuário criado com sucesso" }, newUser);
+        res.status(201).json({ message: "Usuário criado com sucesso", user: newUser });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
