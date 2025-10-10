@@ -45,3 +45,31 @@ export const login = async (email, password) => {
 
     return { token };
 }
+
+export const updateUser = async (userId, updateData) => {
+    const { email, password, name } = updateData;
+
+    if (email) {
+        const existingUser = await userModel.findByEmail(email);
+        if (existingUser) {
+            throw new Error('Este e-mail já está em uso por outra conta.');
+        }
+    }
+
+    const dataToUpdate = {};
+    if (name) dataToUpdate.name = name;
+    if (email) dataToUpdate.email = email;
+
+    if (password) {
+        dataToUpdate.password = await bcrypt.hash(password, 10);
+    }
+
+    if (Object.keys(dataToUpdate).length === 0) {
+        throw new Error('Nenhum dado fornecido para atualização.');
+    }
+
+    const updateUser = await userModel.update(userId, dataToUpdate);
+
+    delete updateUser.password;
+    return updateUser;
+};
