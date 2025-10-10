@@ -20,9 +20,16 @@ export const loginUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-    const { id } = req.params;
-    // Lógica para atualizar usuário virá aqui...
-    res.status(200).json({ message: `Usuário com ID ${id} atualizado com sucesso` });
+    try {
+        const userId = req.user.id;
+
+        const updateData = req.body;
+
+        const updatedUser = await userService.updateUser(userId, updateData);
+        res.status(200).json({ message: 'Usuário atualizado com sucesso' , user: updatedUser});
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    } 
 };
 
 // Funcionalidade futura
