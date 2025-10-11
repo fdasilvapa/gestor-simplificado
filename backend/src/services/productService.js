@@ -38,13 +38,14 @@ export const updateProduct = async (productId, userId, updateData) => {
 };
 
 export const deleteProduct = async (productId, userId) => {
-    const product = productModel.findById(productId);
+    const product = await productModel.findById(productId);
+    
     if (!product) {
         throw new Error('Produto não encontrado.');
     }
 
-    if (productId.userId !== userId) {
-        throw new Error('Acesso negado. Você não possui permissão para deletar este produto.')
+    if (product.userId !== userId) {
+        throw new Error('Acesso negado. Você não possui permissão para deletar este produto.');
     }
 
     return await productModel.remove(productId);
