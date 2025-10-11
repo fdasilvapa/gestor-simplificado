@@ -16,7 +16,7 @@ export const createProduct = async (productData, userId) => {
     return await productModel.create(fullProductData);
 };
 
-export const getProductByUser = async (userId) => {
+export const getProductsByUser = async (userId) => {
     return await productModel.findManyByUserId(userId);
 };
 
