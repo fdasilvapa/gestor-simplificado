@@ -1,4 +1,4 @@
-import * as userModel from '../models/User.js';
+import * as userModel from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -51,7 +51,7 @@ export const updateUser = async (userId, updateData) => {
 
     if (email) {
         const existingUser = await userModel.findByEmail(email);
-        if (existingUser) {
+        if (existingUser && existingUser.id !== userId) {
             throw new Error('Este e-mail já está em uso por outra conta.');
         }
     }
@@ -68,8 +68,19 @@ export const updateUser = async (userId, updateData) => {
         throw new Error('Nenhum dado fornecido para atualização.');
     }
 
-    const updateUser = await userModel.update(userId, dataToUpdate);
+    const updatedUser = await userModel.update(userId, dataToUpdate);
 
-    delete updateUser.password;
-    return updateUser;
+    delete updatedUser.password;
+    return updatedUser;
 };
+
+export const getUserProfile = async (userId) => {
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+        throw new Error('Usuário não encontrado.');
+    }
+
+    delete user.password;
+    return user;
+}
