@@ -9,6 +9,16 @@ export const createUser = async (req, res) => {
     }
 };
 
+export const getUserProfileData = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const userProfile = await userService.getUserProfile(userId);
+        res.status(200).json(userProfile);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
