@@ -4,7 +4,7 @@ export const createNewProduct = async (req, res) => {
     try {
         const userId = req.user.id;
         const productData = req.body;
-        const newProduct = productService.createProduct(productData, userId);
+        const newProduct = await productService.createProduct(productData, userId);
         res.status(201).json({ message: 'Produto cadastrado com sucesso.', product: newProduct });
     } catch (error) {
         res.status(400).json({ message: error.message });

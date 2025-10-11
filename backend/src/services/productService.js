@@ -3,7 +3,7 @@ import * as productModel from '../models/productModel.js';
 export const createProduct = async (productData, userId) => {
     const { name, price } = productData;
 
-    if (!name || !price === undefined) {
+    if (!name || price === undefined) {
         throw new Error('Nome e preço são obrigatórios.');
     }
 
