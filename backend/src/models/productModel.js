@@ -13,6 +13,15 @@ export const findManyByUserId = async (userId) => {
     });
 };
 
+export const findManyByIdsAndUserId = async (productIds, userId) => {
+    return await prisma.product.findMany({
+        where: {
+            id: { in: productIds },
+            userId: userId,
+        },
+    });
+};
+
 export const findById = async (productId) => {
     return await prisma.product.findUnique({
         where: { id: productId },

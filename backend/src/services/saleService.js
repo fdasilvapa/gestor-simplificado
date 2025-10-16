@@ -1,6 +1,5 @@
 import * as saleModel from "../models/saleModel.js";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import * as productModel from "../models/productModel.js";
 
 export const createSale = async (saleInput, userId) => {
   const { items, saleDate } = saleInput;
@@ -13,12 +12,7 @@ export const createSale = async (saleInput, userId) => {
   }
 
   const productIds = items.map((item) => item.productId);
-  const productsFromDb = await prisma.product.findMany({
-    where: {
-      id: { in: productIds },
-      userId: userId,
-    },
-  });
+  const productsFromDb = await productModel.findManyByIdsAndUserId(productIds, userId);
 
   if (productsFromDb.length !== productIds.length) {
     throw new Error(
@@ -52,7 +46,7 @@ export const createSale = async (saleInput, userId) => {
 };
 
 export const getSalesByUser = async (userId) => {
-  const sale = await saleModel.findManyByUserId(userId);
+  return await saleModel.findManyByUserId(userId);
 };
 
 export const getSaleDetails = async (saleId, userId) => {
