@@ -32,3 +32,20 @@ export const remove = async (expenseId) => {
         where: { id: expenseId },
     });
 };
+
+export const sumByUserIdAndDateRange = async (userId, startDate, endDate) => {
+    const result = await prisma.expense.aggregate({
+        _sum: {
+            amount: true,
+        },
+        where: {
+            userId: userId,
+            date: {
+                gte: startDate,
+                lte: endDate,
+            },
+        },
+    });
+
+    return parseFloat(result._sum.amount) || 0;
+};

@@ -51,3 +51,20 @@ export const findById = async (saleId) => {
     },
   });
 };
+
+export const sumByUserIdAndDateRange = async (userId, startDate, endDate) => {
+  const result = await prisma.sale.aggregate({
+    _sum: {
+      totalAmount: true,
+    },
+    where: {
+      userId: userId,
+      saleDate: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+  });
+
+  return parseFloat(result._sum.totalAmount) || 0;
+};
