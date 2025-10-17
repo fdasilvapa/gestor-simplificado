@@ -17,7 +17,7 @@ export const createWithItems = async (saleData, itemsData) => {
     });
 
     return tx.sale.findUnique({
-      where: { id: saleId },
+      where: { id: sale.id },
       include: {
         items: true,
       },
