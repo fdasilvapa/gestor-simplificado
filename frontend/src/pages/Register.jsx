@@ -1,0 +1,119 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Mail, Lock, User } from "lucide-react";
+
+function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Dados do Cadastro:", { name, email, password });
+  };
+  return (
+    <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-3xl font-bold text-center text-green-600">
+        Crie sua Conta
+      </h2>
+      <p className="text-center text-gray-600">É rápido e fácil.</p>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Campo de Nome */}
+        <div>
+          <label htmlFor="name" className="text-sm font-medium text-gray-700">
+            Nome
+          </label>
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <User className="w-5 h-5 text-gray-400" />
+            </div>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              placeholder="Seu nome completo"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Campo de E-mail */}
+        <div>
+          <label htmlFor="email" className="text-sm font-medium text-gray-700">
+            E-mail
+          </label>
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Mail className="w-5 h-5 text-gray-400" />
+            </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              placeholder="seuemail@exemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Campo de Senha */}
+        <div>
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-gray-700"
+          >
+            Senha
+          </label>
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Lock className="w-5 h-5 text-gray-400" />
+            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              required
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              placeholder="Mínimo de 6 caracteres"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Botão de Cadastrar */}
+        <div>
+          <button
+            type="submit"
+            className="w-full px-4 py-3 font-medium text-white bg-green-600 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+          >
+            Cadastrar
+          </button>
+        </div>
+      </form>
+
+      {/* Link para Login */}
+      <p className="text-sm text-center text-gray-600">
+        Já tem uma conta?{" "}
+        <Link
+          to="/login"
+          className="font-medium text-green-600 hover:text-green-500"
+        >
+          Faça login
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+export default Register;
