@@ -8,10 +8,15 @@ import RedirectIfAuth from "./components/RedirectIfAuth";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 
-// Páginas
+// Páginas de autenticação
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
+// Páginas protegidas
 import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import Expenses from "./pages/Expenses";
+import Sales from "./pages/Sales";
 
 function App() {
   return (
@@ -30,8 +35,9 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/app" element={<MainLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
-            {/* Futuramente: <Route path="products" element={<Products />} /> */}
-            {/* Futuramente: <Route path="expenses" element={<Expenses />} /> */}
+            <Route path="products" element={<Products />} />
+            <Route path="expenses" element={<Expenses />} />
+            <Route path="sales" element={<Sales />} />
           </Route>
         </Route>
 
