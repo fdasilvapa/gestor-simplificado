@@ -1,16 +1,33 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
   // Estados para armazenar o valor dos inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [apiError, setApiError] = useState(null);
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Função para lidar com o envio do formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Dados do login: ", { email, password });
+    setApiError(null);
+
+    try {
+      await login(email, password);
+
+      navigate("/app/dashboard");
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setApiError(error.response.data.message);
+      } else {
+        setApiError("Ocorreu um erro. Tente novamente mais tarde.");
+      }
+    }
   };
 
   return (
@@ -64,6 +81,11 @@ function Login() {
             />
           </div>
         </div>
+
+        {/* Exibidor de erro */}
+        {apiError && (
+          <p className="text-sm text-center text-red-600">{apiError}</p>
+        )}
 
         {/* Botão de Entrar */}
         <div>

@@ -1,15 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [apiError, setApiError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const { register } = useAuth();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Dados do Cadastro:", { name, email, password });
+    setApiError(null);
+
+    try {
+      await register(name, email, password);
+
+      navigate("/app/dashboard");
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setApiError(error.response.data.message);
+      } else {
+        setApiError("Ocorreu um erro. Tente novamente mais tarde.");
+      }
+    }
   };
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -85,6 +102,11 @@ function Register() {
             />
           </div>
         </div>
+
+        {/* Exibidor de erro */}
+        {apiError && (
+          <p className="text-sm text-center text-red-600">{apiError}</p>
+        )}
 
         {/* Botão de Cadastrar */}
         <div>
