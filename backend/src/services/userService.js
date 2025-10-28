@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 export const register = async (userData) => {
     const { email, password, name } = userData;
 
-    if (!email || !password) {
-        throw new Error('E-mail e senha são obrigatórios.');
+    if (!name || !email || !password) {
+        throw new Error('Nome, e-mail e senha são obrigatórios.');
     }
 
     const existingUser = await userModel.findByEmail(email);
