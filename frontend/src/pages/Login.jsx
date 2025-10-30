@@ -56,7 +56,7 @@ function Login() {
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         {/* Campo de e-mail */}
         <div>
           <label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -70,6 +70,7 @@ function Login() {
               id="email"
               name="email"
               type="email"
+              maxLength="60"
               autoComplete="email"
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="seuemail@exemplo.com"
@@ -98,6 +99,7 @@ function Login() {
               id="password"
               name="password"
               type="password"
+              maxLength="20"
               autoComplete="current-password"
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="••••••••"

@@ -66,7 +66,7 @@ function Register() {
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         {/* Campo de Nome */}
         <div>
           <label htmlFor="name" className="text-sm font-medium text-gray-700">
@@ -80,6 +80,7 @@ function Register() {
               id="name"
               name="name"
               type="text"
+              maxLength="60"
               autoComplete="name"
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Seu nome completo"
@@ -105,6 +106,7 @@ function Register() {
               id="email"
               name="email"
               type="email"
+              maxLength="60"
               autoComplete="email"
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="seuemail@exemplo.com"
@@ -133,6 +135,7 @@ function Register() {
               id="password"
               name="password"
               type="password"
+              maxLength="20"
               autoComplete="new-password"
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Mínimo de 6 caracteres"
