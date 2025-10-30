@@ -6,7 +6,7 @@ function Modal({ isOpen, onClose, title, children }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
       onClick={onClose}
     >
       {/* Card do modal */}
@@ -18,7 +18,7 @@ function Modal({ isOpen, onClose, title, children }) {
         <div className="flex items-center justify-between pb-4 border-b border-gray-200">
           <h3 className="text-2xl font-semibold text-gray-800">{title}</h3>
           <button
-            onClick={onclose}
+            onClick={onClose}
             className="p-1 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-600"
           >
             <X className="w-6 h-6" />
