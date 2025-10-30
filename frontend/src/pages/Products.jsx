@@ -3,6 +3,7 @@ import { getProducts, createProduct } from "../services/productService";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import Modal from "../components/ui/Modal";
 import ProductForm from "../components/ProductForm";
+import { toast } from "react-hot-toast";
 
 const formatCurrency = (value) => {
   return parseFloat(value).toLocaleString("pt-BR", {
@@ -56,6 +57,8 @@ function Products() {
 
       setIsModalOpen(false);
       fetchProducts();
+
+      toast.success("Produto criado com sucesso!");
     } catch (err) {
       setFormError(err.message || "Falha ao salvar produto.");
     } finally {

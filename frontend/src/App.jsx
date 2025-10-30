@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 // "Guardas" de rota
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,6 +22,12 @@ import Sales from "./pages/Sales";
 function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <Routes>
         {/* Páginas de autenticação */}
         <Route element={<RedirectIfAuth />}>

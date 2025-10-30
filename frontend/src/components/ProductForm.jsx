@@ -5,13 +5,23 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+  const [priceError, setPriceError] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setPriceError(null);
+
+    const sanitizedPrice = price.replace(",", ".").replace(/[^0-9.]/g, "");
+    const numericPrice = parseFloat(sanitizedPrice);
+
+    if (isNaN(numericPrice) || numericPrice <= 0) {
+      setPriceError("Por favor, insira um preço válido (ex: 10,99).");
+      return;
+    }
 
     onSave({
       name,
-      price: parseFloat(price),
+      price: numericPrice,
       description,
     });
   };
@@ -46,15 +56,17 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
         </label>
         <input
           id="price"
-          type="number"
-          step="0.01"
-          min="0.01"
+          type="text"
+          inputMode="decimal"
           required
           className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           placeholder="0.00"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
+        {priceError && (
+          <p className="mt-1 text-xs text-red-600">{priceError}</p>
+        )}
       </div>
 
       {/* Campo descrição */}
