@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayMouseDown = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -13,13 +13,10 @@ function Modal({ isOpen, onClose, title, children }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
-      onClick={handleOverlayClick}
+      onMouseDown={handleOverlayMouseDown}
     >
       {/* Card do modal */}
-      <div
-        className="relative w-full max-w-lg p-6 bg-white rounded-lg shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="relative w-full max-w-lg p-6 bg-white rounded-lg shadow-xl">
         {/* Cabeçalho */}
         <div className="flex items-center justify-between pb-4 border-b border-gray-200">
           <h3 className="text-2xl font-semibold text-gray-800">{title}</h3>

@@ -30,7 +30,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
           id="name"
           type="text"
           required
-          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -50,7 +50,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
           step="0.01"
           min="0.01"
           required
-          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           placeholder="0.00"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -68,7 +68,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
         <textarea
           id="description"
           rows="3"
-          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
