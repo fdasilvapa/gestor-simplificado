@@ -48,7 +48,7 @@ function Login() {
               type="email"
               autoComplete="email"
               required
-              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="seuemail@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -74,7 +74,7 @@ function Login() {
               type="password"
               autoComplete="current-password"
               required
-              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
