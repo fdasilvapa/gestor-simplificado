@@ -8,13 +8,46 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiError, setApiError] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const { register } = useAuth();
 
+  const validateForm = () => {
+    const errors = {};
+    if (!name.trim()) errors.name = "O nome é obrigatório.";
+    if (name.length > 60)
+      errors.name = "O nome deve ter no máximo 60 caracteres.";
+
+    if (!email.trim()) errors.email = "O e-mail é obrigatório.";
+    if (email.length > 60)
+      errors.email = "O e-mail deve ter no máximo 60 caracteres.";
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Formato de e-mail inválido.";
+    }
+
+    if (!password) errors.password = "A senha é obrigatória.";
+    if (password.length < 8)
+      errors.password = "A senha deve ter no mínimo 8 caracteres.";
+    if (password.length > 20)
+      errors.password = "A senha deve ter no máximo 20 caracteres.";
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError(null);
+    setFormErrors({});
+    setIsSubmitting(true);
+
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       await register(name, email, password);
@@ -26,8 +59,11 @@ function Register() {
       } else {
         setApiError("Ocorreu um erro. Tente novamente mais tarde.");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -45,13 +81,15 @@ function Register() {
               name="name"
               type="text"
               autoComplete="name"
-              required
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Seu nome completo"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+          {formErrors.name && (
+            <p className="mt-1 text-xs text-red-600">{formErrors.name}</p>
+          )}
         </div>
 
         {/* Campo de E-mail */}
@@ -68,13 +106,15 @@ function Register() {
               name="email"
               type="email"
               autoComplete="email"
-              required
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="seuemail@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          {formErrors.email && (
+            <p className="mt-1 text-xs text-red-600">{formErrors.email}</p>
+          )}
         </div>
 
         {/* Campo de Senha */}
@@ -94,16 +134,18 @@ function Register() {
               name="password"
               type="password"
               autoComplete="new-password"
-              required
               className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Mínimo de 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {formErrors.password && (
+            <p className="mt-1 text-xs text-red-600">{formErrors.password}</p>
+          )}
         </div>
 
-        {/* Exibidor de erro */}
+        {/* Exibidor de erro da API */}
         {apiError && (
           <p className="text-sm text-center text-red-600">{apiError}</p>
         )}

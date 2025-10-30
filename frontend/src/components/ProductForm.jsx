@@ -5,17 +5,27 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [priceError, setPriceError] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPriceError(null);
+
+    setFormErrors({});
+
+    const errors = {};
+    if (!name.trim()) {
+      errors.name = "O nome do produto é obrigatório.";
+    }
 
     const sanitizedPrice = price.replace(",", ".").replace(/[^0-9.]/g, "");
     const numericPrice = parseFloat(sanitizedPrice);
 
     if (isNaN(numericPrice) || numericPrice <= 0) {
-      setPriceError("Por favor, insira um preço válido (ex: 10,99).");
+      errors.price = "Por favor, insira um preço válido (ex: 10,99).";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
       return;
     }
 
@@ -39,11 +49,13 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
         <input
           id="name"
           type="text"
-          required
           className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        {formErrors.name && (
+          <p className="mt-1 text-xs text-red-600">{formErrors.name}</p>
+        )}
       </div>
 
       {/* Campo preço */}
@@ -58,14 +70,13 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
           id="price"
           type="text"
           inputMode="decimal"
-          required
           className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           placeholder="0.00"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
-        {priceError && (
-          <p className="mt-1 text-xs text-red-600">{priceError}</p>
+        {formErrors.price && (
+          <p className="mt-1 text-xs text-red-600">{formErrors.price}</p>
         )}
       </div>
 
