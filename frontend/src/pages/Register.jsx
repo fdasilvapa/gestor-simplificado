@@ -46,7 +46,7 @@ function Register() {
               type="text"
               autoComplete="name"
               required
-              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Seu nome completo"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -69,7 +69,7 @@ function Register() {
               type="email"
               autoComplete="email"
               required
-              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="seuemail@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -95,7 +95,7 @@ function Register() {
               type="password"
               autoComplete="new-password"
               required
-              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Mínimo de 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

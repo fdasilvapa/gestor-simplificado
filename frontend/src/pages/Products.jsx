@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getProducts } from "../services/productService";
+import { getProducts, createProduct } from "../services/productService";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
+import Modal from "../components/ui/Modal";
+import ProductForm from "../components/ProductForm";
 
 const formatCurrency = (value) => {
   return parseFloat(value).toLocaleString("pt-BR", {
@@ -13,6 +15,10 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -31,9 +37,30 @@ function Products() {
     fetchProducts();
   }, []);
 
-  const handleCreate = () => {
-    // TODO: Abrir modal de criação
-    alert('Função "Novo produto" a ser implementada!');
+  const handleCreateClick = () => {
+    setFormError(null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    if (isSubmitting) return;
+    setIsModalOpen(false);
+  };
+
+  const handleSaveProduct = async (productData) => {
+    setFormError(null);
+    setIsSubmitting(true);
+
+    try {
+      await createProduct(productData);
+
+      setIsModalOpen(false);
+      fetchProducts();
+    } catch (err) {
+      setFormError(err.message || "Falha ao salvar produto.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleEdit = (id) => {
@@ -68,7 +95,7 @@ function Products() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-gray-800">Meus Produtos</h1>
         <button
-          onClick={handleCreate}
+          onClick={handleCreateClick}
           className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors"
         >
           <Plus className="w-5 h-5 mr-2" />
@@ -134,6 +161,20 @@ function Products() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
+      <Modal
+        title="Novo Produto"
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      >
+        <ProductForm
+          onSave={handleSaveProduct}
+          onCancel={handleCloseModal}
+          apiError={formError}
+          isSubmitting={isSubmitting}
+        />
+      </Modal>
     </div>
   );
 }
