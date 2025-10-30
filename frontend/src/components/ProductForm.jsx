@@ -49,6 +49,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
         <input
           id="name"
           type="text"
+          maxLength="100"
           className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -91,6 +92,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
         <textarea
           id="description"
           rows="3"
+          maxLength="255"
           className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:border-green-500"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
