@@ -56,7 +56,7 @@ function Login() {
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         {/* Campo de e-mail */}
         <div>
           <label htmlFor="email" className="text-sm font-medium text-gray-700">
