@@ -13,7 +13,7 @@ function ConfirmationModal({
 
   const handleOverlayMouseDown = (e) => {
     if (e.target === e.currentTarget) {
-      onClose;
+      onClose();
     }
   };
 
