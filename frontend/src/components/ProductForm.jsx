@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
-function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+function ProductForm({
+  initialData,
+  onSave,
+  onCancel,
+  apiError,
+  isSubmitting,
+}) {
+  const [name, setName] = useState(initialData?.name || "");
+  const [price, setPrice] = useState(initialData?.price ?? "");
+  const [description, setDescription] = useState(initialData?.description || "");
+
   const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || "");
+      setPrice(initialData.price ?? "");
+      setDescription(initialData.description || "");
+    } else {
+      setName("");
+      setPrice("");
+      setDescription("");
+    }
+  }, [initialData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +36,8 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
       errors.name = "O nome do produto é obrigatório.";
     }
 
-    const sanitizedPrice = price.replace(",", ".").replace(/[^0-9.]/g, "");
+    const priceString = String(price || "");
+    const sanitizedPrice = priceString.replace(",", ".").replace(/[^0-9.]/g, "");
     const numericPrice = parseFloat(sanitizedPrice);
 
     if (isNaN(numericPrice) || numericPrice <= 0) {
@@ -122,7 +142,7 @@ function ProductForm({ onSave, onCancel, apiError, isSubmitting }) {
           {isSubmitting ? (
             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
           ) : null}
-          {isSubmitting ? "Salvando..." : "Salvar produto"}
+          {isSubmitting ? "Salvando..." : (initialData ? "Atualizar" : "Salvar produto")}
         </button>
       </div>
     </form>

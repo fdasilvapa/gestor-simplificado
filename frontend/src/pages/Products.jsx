@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getProducts, createProduct } from "../services/productService";
+import {
+  getProducts,
+  createProduct,
+  updateProduct,
+} from "../services/productService";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import Modal from "../components/ui/Modal";
 import ProductForm from "../components/ProductForm";
@@ -21,6 +25,8 @@ function Products() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
+  const [editingProduct, setEditingProduct] = useState(null);
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -39,6 +45,13 @@ function Products() {
   }, []);
 
   const handleCreateClick = () => {
+    setEditingProduct(null);
+    setFormError(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (product) => {
+    setEditingProduct(product);
     setFormError(null);
     setIsModalOpen(true);
   };
@@ -46,6 +59,7 @@ function Products() {
   const handleCloseModal = () => {
     if (isSubmitting) return;
     setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
   const handleSaveProduct = async (productData) => {
@@ -53,22 +67,22 @@ function Products() {
     setIsSubmitting(true);
 
     try {
-      await createProduct(productData);
+      if (editingProduct) {
+        await updateProduct(editingProduct.id, productData);
+        toast.success("Produto atualizado com sucesso!");
+      } else {
+        await createProduct(productData);
+        toast.success("Produto criado com sucesso!");
+      }
 
       setIsModalOpen(false);
+      setEditingProduct(null);
       fetchProducts();
-
-      toast.success("Produto criado com sucesso!");
     } catch (err) {
       setFormError(err.message || "Falha ao salvar produto.");
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleEdit = (id) => {
-    // TODO: Abrir modal de edição
-    alert(`Função "Editar Produto" (ID: ${id}) a ser implementada!`);
   };
 
   const handleDelete = async (id) => {
@@ -140,7 +154,7 @@ function Products() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                     <button
-                      onClick={() => handleEdit(product.id)}
+                      onClick={() => handleEditClick(product)}
                       className="text-blue-600 hover:text-blue-900 p-1"
                     >
                       <Edit className="w-5 h-5" />
@@ -167,11 +181,12 @@ function Products() {
 
       {/* Modal */}
       <Modal
-        title="Novo Produto"
+        title={editingProduct ? "Editar produto" : "Novo Produto"}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       >
         <ProductForm
+          initialData={editingProduct}
           onSave={handleSaveProduct}
           onCancel={handleCloseModal}
           apiError={formError}
