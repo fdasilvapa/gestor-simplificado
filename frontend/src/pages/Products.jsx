@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { getProducts, createProduct } from "../services/productService";
+import {
+  getProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "../services/productService";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import Modal from "../components/ui/Modal";
+import ConfirmationModal from "../components/ui/ConfirmationModal";
 import ProductForm from "../components/ProductForm";
 import { toast } from "react-hot-toast";
 
@@ -20,6 +26,11 @@ function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -39,6 +50,13 @@ function Products() {
   }, []);
 
   const handleCreateClick = () => {
+    setEditingProduct(null);
+    setFormError(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (product) => {
+    setEditingProduct(product);
     setFormError(null);
     setIsModalOpen(true);
   };
@@ -46,6 +64,7 @@ function Products() {
   const handleCloseModal = () => {
     if (isSubmitting) return;
     setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
   const handleSaveProduct = async (productData) => {
@@ -53,12 +72,17 @@ function Products() {
     setIsSubmitting(true);
 
     try {
-      await createProduct(productData);
+      if (editingProduct) {
+        await updateProduct(editingProduct.id, productData);
+        toast.success("Produto atualizado com sucesso!");
+      } else {
+        await createProduct(productData);
+        toast.success("Produto criado com sucesso!");
+      }
 
       setIsModalOpen(false);
+      setEditingProduct(null);
       fetchProducts();
-
-      toast.success("Produto criado com sucesso!");
     } catch (err) {
       setFormError(err.message || "Falha ao salvar produto.");
     } finally {
@@ -66,14 +90,32 @@ function Products() {
     }
   };
 
-  const handleEdit = (id) => {
-    // TODO: Abrir modal de edição
-    alert(`Função "Editar Produto" (ID: ${id}) a ser implementada!`);
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setIsConfirmModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    // TODO: Implementar deleção com confirmação
-    alert(`Função "Deletar Produto" (ID: ${id}) a ser implementada!`);
+  const handleCloseConfirmModal = () => {
+    setIsConfirmModalOpen(false);
+    setProductToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!productToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteProduct(productToDelete.id);
+
+      toast.success("Produto excluído com sucesso!");
+      setIsConfirmModalOpen(false);
+      setProductToDelete(null);
+      fetchProducts();
+    } catch (err) {
+      toast.error(err.message || "Falha ao excluir produto.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   if (loading) {
@@ -140,13 +182,13 @@ function Products() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                     <button
-                      onClick={() => handleEdit(product.id)}
+                      onClick={() => handleEditClick(product)}
                       className="text-blue-600 hover:text-blue-900 p-1"
                     >
                       <Edit className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => handleDelete(product.id)}
+                      onClick={() => handleDeleteClick(product)}
                       className="text-red-600 hover:text-red-900 p-1"
                     >
                       <Trash2 className="w-5 h-5" />
@@ -167,17 +209,28 @@ function Products() {
 
       {/* Modal */}
       <Modal
-        title="Novo Produto"
+        title={editingProduct ? "Editar produto" : "Novo Produto"}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       >
         <ProductForm
+          initialData={editingProduct}
           onSave={handleSaveProduct}
           onCancel={handleCloseModal}
           apiError={formError}
           isSubmitting={isSubmitting}
         />
       </Modal>
+
+      {/* Confirmação */}
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onClose={handleCloseConfirmModal}
+        onConfirm={handleConfirmDelete}
+        title="Excluir produto"
+        message={`Você tem certeza que deseja excluir o produto "${productToDelete?.name}"? Esta ação não pode ser desfeita.`}
+        isSubmitting={isDeleting}
+      />
     </div>
   );
 }
