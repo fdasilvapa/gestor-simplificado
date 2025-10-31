@@ -3,9 +3,11 @@ import {
   getProducts,
   createProduct,
   updateProduct,
+  deleteProduct,
 } from "../services/productService";
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
 import Modal from "../components/ui/Modal";
+import ConfirmationModal from "../components/ui/ConfirmationModal";
 import ProductForm from "../components/ProductForm";
 import { toast } from "react-hot-toast";
 
@@ -24,8 +26,11 @@ function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
-
   const [editingProduct, setEditingProduct] = useState(null);
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -85,9 +90,32 @@ function Products() {
     }
   };
 
-  const handleDelete = async (id) => {
-    // TODO: Implementar deleção com confirmação
-    alert(`Função "Deletar Produto" (ID: ${id}) a ser implementada!`);
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setIsConfirmModalOpen(false);
+    setProductToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!productToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteProduct(productToDelete.id);
+
+      toast.success("Produto excluído com sucesso!");
+      setIsConfirmModalOpen(false);
+      setProductToDelete(null);
+      fetchProducts();
+    } catch (err) {
+      toast.error(err.message || "Falha ao excluir produto.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   if (loading) {
@@ -160,7 +188,7 @@ function Products() {
                       <Edit className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => handleDelete(product.id)}
+                      onClick={() => handleDeleteClick(product)}
                       className="text-red-600 hover:text-red-900 p-1"
                     >
                       <Trash2 className="w-5 h-5" />
@@ -193,6 +221,16 @@ function Products() {
           isSubmitting={isSubmitting}
         />
       </Modal>
+
+      {/* Confirmação */}
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onClose={handleCloseConfirmModal}
+        onConfirm={handleConfirmDelete}
+        title="Excluir produto"
+        message={`Você tem certeza que deseja excluir o produto "${productToDelete?.name}"? Esta ação não pode ser desfeita.`}
+        isSubmitting={isDeleting}
+      />
     </div>
   );
 }
