@@ -7,6 +7,7 @@ import {
   ArrowDownCircle,
   Scale,
   Loader2,
+  Filter,
 } from "lucide-react";
 
 const StatCard = ({ title, value, icon: Icon, colorClass }) => (
@@ -80,50 +81,38 @@ function Dashboard() {
 
   return (
     <div>
-      {/* Cabeçalho de saudação */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Bem-vindo, {user?.name || "usuário"}!
-          </h1>
-          <p className="text-lg text-gray-600">
-            Este é o resumo financeiro do seu mês.
-          </p>
-        </div>
+      {/* Bloco de saudação */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          Bem-vindo, {user?.name || "usuário"}!
+        </h1>
+        <p className="text-lg text-gray-600">
+          Este é o seu resumo financeiro.
+        </p>
+      </div>
 
-        {/* Botões de filtro */}
-        <div className="flex flex-wrap gap-2 mt-4 md:mt-0 p-1 bg-gray-200 rounded-lg">
-          <FilterButton
-            label="Este Mês"
-            onClick={() => setPeriod("thisMonth")}
-            isActive={period === "thisMonth"}
-          />
-          <FilterButton
-            label="Mês Passado"
-            onClick={() => setPeriod("lastMonth")}
-            isActive={period === "lastMonth"}
-          />
-          <FilterButton
-            label="Últ. 7 Dias"
-            onClick={() => setPeriod("last7days")}
-            isActive={period === "last7days"}
-          />
-          <FilterButton
-            label="Últ. 3 Meses"
-            onClick={() => setPeriod("last3months")}
-            isActive={period === "last3months"}
-          />
-          <FilterButton
-            label="Últ. 6 Meses"
-            onClick={() => setPeriod("last6months")}
-            isActive={period === "last6months"}
-          />
-          <FilterButton
-            label="Últ. 12 Meses"
-            onClick={() => setPeriod("last12months")}
-            isActive={period === "last12months"}
-          />
-        </div>
+      {/* Bloco de controles/filtros */}
+      <div className="flex items-center space-x-2 mb-6">
+        <Filter className="w-5 h-5 text-gray-600" />
+        <label
+          htmlFor="period-filter"
+          className="text-sm font-medium text-gray-700"
+        >
+          Período:
+        </label>
+        <select
+          id="period-filter"
+          value={period}
+          onChange={(e) => setPeriod(e.target.value)}
+          className="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          <option value="thisMonth">Este Mês</option>
+          <option value="lastMonth">Mês Passado</option>
+          <option value="last7days">Últ. 7 Dias</option>
+          <option value="last3months">Últ. 3 Meses</option>
+          <option value="last6months">Últ. 6 Meses</option>
+          <option value="last12months">Últ. 12 Meses</option>
+        </select>
       </div>
 
       {/* Grids de cards */}
