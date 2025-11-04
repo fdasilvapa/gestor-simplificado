@@ -23,17 +23,32 @@ const StatCard = ({ title, value, icon: Icon, colorClass }) => (
   </div>
 );
 
+const FilterButton = ({ label, onClick, isActive }) => (
+  <button
+    onClick={onClick}
+    className={`px-4 py-2 rounded-md text-sm font-medium ${
+      isActive
+        ? "bg-green-600 text-white shadow-md"
+        : "bg-white text-gray-700 hover:bg-gray-50"
+    }`}
+  >
+    {label}
+  </button>
+);
+
 function Dashboard() {
   const { user } = useAuth();
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [period, setPeriod] = useState("thisMonth");
+
   useEffect(() => {
     const fetchSummary = async () => {
       try {
         setLoading(true);
-        const data = await getDashboardSummary();
+        const data = await getDashboardSummary(period);
         setSummary(data);
         setError(null);
       } catch (err) {
@@ -44,7 +59,7 @@ function Dashboard() {
     };
 
     fetchSummary();
-  }, []);
+  }, [period]);
 
   if (loading) {
     return (
@@ -66,12 +81,35 @@ function Dashboard() {
   return (
     <div>
       {/* Cabeçalho de saudação */}
-      <h1 className="text-4xl font-bold text-gray-800 mb-2">
-        Bem-vindo, {user?.name || "usuário"}!
-      </h1>
-      <p className="text-lg text-gray-600 mb-8">
-        Este é o resumo financeiro do seu mês.
-      </p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            Bem-vindo, {user?.name || "usuário"}!
+          </h1>
+          <p className="text-lg text-gray-600">
+            Este é o resumo financeiro do seu mês.
+          </p>
+        </div>
+
+        {/* Botões de filtro */}
+        <div className="flex space-x-2 mt-4 md:mt-0 p-1 bg-gray-200 rounded-lg">
+          <FilterButton
+            label="Este Mês"
+            onClick={() => setPeriod("thisMonth")}
+            isActive={period === "thisMonth"}
+          />
+          <FilterButton
+            label="Mês Passado"
+            onClick={() => setPeriod("lastMonth")}
+            isActive={period === "lastMonth"}
+          />
+          <FilterButton
+            label="Últ. 7 Dias"
+            onClick={() => setPeriod("last7days")}
+            isActive={period === "last7days"}
+          />
+        </div>
+      </div>
 
       {/* Grids de cards */}
       {summary && (
