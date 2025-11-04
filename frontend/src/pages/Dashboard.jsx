@@ -92,7 +92,7 @@ function Dashboard() {
         </div>
 
         {/* Botões de filtro */}
-        <div className="flex space-x-2 mt-4 md:mt-0 p-1 bg-gray-200 rounded-lg">
+        <div className="flex flex-wrap gap-2 mt-4 md:mt-0 p-1 bg-gray-200 rounded-lg">
           <FilterButton
             label="Este Mês"
             onClick={() => setPeriod("thisMonth")}
@@ -107,6 +107,21 @@ function Dashboard() {
             label="Últ. 7 Dias"
             onClick={() => setPeriod("last7days")}
             isActive={period === "last7days"}
+          />
+          <FilterButton
+            label="Últ. 3 Meses"
+            onClick={() => setPeriod("last3months")}
+            isActive={period === "last3months"}
+          />
+          <FilterButton
+            label="Últ. 6 Meses"
+            onClick={() => setPeriod("last6months")}
+            isActive={period === "last6months"}
+          />
+          <FilterButton
+            label="Últ. 12 Meses"
+            onClick={() => setPeriod("last12months")}
+            isActive={period === "last12months"}
           />
         </div>
       </div>

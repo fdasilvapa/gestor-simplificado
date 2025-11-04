@@ -9,24 +9,36 @@ const getDatesFromPeriodKey = (periodKey) => {
   const utcMonth = now.getUTCMonth();
   const utcDay = now.getUTCDate();
 
-  switch (periodKey) {
-    case "last7days":
-      endDate = new Date(Date.UTC(utcYear, utcMonth, utcDay, 23, 59, 59));
-      startDate = new Date(Date.UTC(utcYear, utcMonth, utcDay - 6, 0, 0, 0));
-      break;
+  endDate = new Date(Date.UTC(utcYear, utcMonth + 1, 0, 23, 59, 59));
 
+  switch (periodKey) {
     case "lastMonth":
       startDate = new Date(Date.UTC(utcYear, utcMonth - 1, 1, 0, 0, 0));
       endDate = new Date(Date.UTC(utcYear, utcMonth, 0, 23, 59, 59));
       break;
 
+    case "last7days":
+      startDate = new Date(Date.UTC(utcYear, utcMonth, utcDay - 6, 0, 0, 0));
+      endDate = new Date(Date.UTC(utcYear, utcMonth, utcDay, 23, 59, 59));
+      break;
+
+    case "last3months":
+      startDate = new Date(Date.UTC(utcYear, utcMonth - 2, 1, 0, 0, 0));
+      break;
+
+    case "last6months":
+      startDate = new Date(Date.UTC(utcYear, utcMonth - 5, 1, 0, 0, 0));
+      break;
+
+    case "last12months":
+      startDate = new Date(Date.UTC(utcYear, utcMonth - 11, 1, 0, 0, 0));
+      break;
+
     case "thisMonth":
     default:
       startDate = new Date(Date.UTC(utcYear, utcMonth, 1, 0, 0, 0));
-      endDate = new Date(Date.UTC(utcYear, utcMonth + 1, 0, 23, 59, 59));
       break;
   }
-
   return { startDate, endDate };
 };
 
