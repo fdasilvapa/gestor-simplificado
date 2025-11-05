@@ -177,7 +177,7 @@ function SaleForm({ onSave, onCancel, apiError, isSubmitting }) {
             Nenhum item adicionado.
           </p>
         ) : (
-          <ul className="border rounded-md divide-y divide-gray-200">
+          <ul className="border rounded-md divide-y divide-gray-200 max-h-32 overflow-y-auto">
             {items.map((item) => (
               <li
                 key={item.productId}
