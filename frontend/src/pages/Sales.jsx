@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getSales } from "../services/saleService";
-import { Loader2, Plus, Eye } from "lucide-react";
+import { getSales, createSale } from "../services/saleService";
+import { Loader2, Plus } from "lucide-react";
 import { toast } from "react-hot-toast";
+import Modal from "../components/ui/Modal";
+import SaleForm from "../components/SaleForm";
 
 const formatCurrency = (value) => {
   return parseFloat(value).toLocaleString("pt-BR", {
@@ -25,6 +27,10 @@ function Sales() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState(null);
+
   const fetchSales = async () => {
     try {
       setLoading(true);
@@ -44,11 +50,30 @@ function Sales() {
   }, []);
 
   const handleCreateClick = () => {
-    alert('Função "Nova venda" a ser implementada!');
+    setFormError(null);
+    setIsModalOpen(true);
   };
 
-  const handleViewDetails = (saleId) => {
-    alert(`Função "Ver detalhes" (ID: ${saleId}) a ser implementada!`);
+  const handleCloseModal = () => {
+    if (isSubmitting) return;
+    setIsModalOpen(false);
+  };
+
+  const handleSaveSale = async (saleData) => {
+    setFormError(null);
+    setIsSubmitting(true);
+
+    try {
+      await createSale(saleData);
+
+      toast.success("Venda registrada com sucesso!");
+      setIsModalOpen(false);
+      fetchSales();
+    } catch (err) {
+      setFormError(err.message || "Falha ao registrar venda.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -100,9 +125,6 @@ function Sales() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Valor Total
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Ações
-              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -135,22 +157,11 @@ function Sales() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-700">
                     {formatCurrency(sale.totalAmount)}
                   </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => handleViewDetails(sale.id)}
-                      className="text-blue-600 hover:text-blue-900 p-1"
-                      title="Ver Detalhes"
-                    >
-                      <Eye className="w-5 h-5" />
-                    </button>
-                    {/* Não vamos implementar Edição/Deleção de vendas para manter o histórico */}
-                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
+                <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
                   Você ainda não registrou nenhuma venda.
                 </td>
               </tr>
@@ -158,6 +169,20 @@ function Sales() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal de nova venda */}
+      <Modal
+        title="Registrar Nova Venda"
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      >
+        <SaleForm
+          onSave={handleSaveSale}
+          onCancel={handleCloseModal}
+          apiError={formError}
+          isSubmitting={isSubmitting}
+        />
+      </Modal>
     </div>
   );
 }
