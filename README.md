@@ -20,10 +20,19 @@ O **Gestor Simplificado** nasceu da necessidade de criar uma aplicação mais ro
 
 Todo o ambiente de desenvolvimento foi projetado para ser executado dentro de containers Docker, simulando um ambiente de produção e facilitando a configuração inicial do projeto.
 
+**✨ Visuals**
+
+| Dashboard | Vendas (Histórico) |
+| :---: | :---: |
+| ![Dashboard com filtros](./screenshots/dashboard.png) | ![Histórico de Vendas](./screenshots/sales.png) |
+| **Despesas** | **Modal de Venda** |
+| ![Tabela de Despesas](./screenshots/despesas.png) | ![Modal de Registro de Nova Venda](./screenshots/sales-modal.png) |
+
+
 **✨ Funcionalidades**
 
 *   🔐 **Autenticação:** Sistema completo de registro e login com tokens JWT.
-*   📈 **Dashboard:** Painel principal com um resumo financeiro do mês (total de vendas, despesas e saldo).
+*   📈 **Dashboard:** Painel principal com um resumo financeiro e filtros de período (Este Mês, Mês Passado, Últ. 6 Meses, etc.).
 *   📦 **Gestão de Produtos:** CRUD completo para cadastrar os produtos ou serviços que você vende.
 *   💰 **Registro de Vendas:** Registre suas vendas, associando produtos e gerando um histórico.
 *   💸 **Registro de Despesas:** Cadastre todas as suas despesas, classificando-as por categoria.
@@ -49,6 +58,16 @@ O projeto foi dividido em duas partes principais:
 *   [Tailwind CSS](https://tailwindcss.com/)
 *   [React Router](https://reactrouter.com/en/main)
 
+**🏛️ Arquitetura e Planejamento**
+
+Este projeto não começou pelo código. Antes de tudo, foi feito um levantamento de requisitos, um roadmap de desenvolvimento e a modelagem da arquitetura do banco de dados.
+
+Você pode conferir todos os artefatos de planejamento na [pasta /docs](./docs/) do projeto, incluindo:
+
+* [cite_start]**[Documento de Requisitos (PDF)](./docs/GestorSimplificado-Requisitos.pdf):** Escopo, Requisitos Funcionais e Regras de Negócio[cite: 121].
+* [cite_start]**[Arquitetura do Banco de Dados (PDF)](./docs/GestorSimplificado-ArquiteturaBD.pdf):** Diagrama ERD e definição de todas as tabelas e relacionamentos[cite: 1, 11].
+* [cite_start]**[Roadmap de Desenvolvimento (PDF)](./docs/GestorSimplificado-Roadmap.pdf):** O plano de fases do projeto, da Fase 1 (Docker) à Fase 4 (Dashboard)[cite: 83, 88].
+
 **🏁 Começando**
 
 Siga as instruções abaixo para executar o projeto em seu ambiente local.
@@ -69,7 +88,7 @@ Antes de começar, você vai precisar ter as seguintes ferramentas instaladas em
     cd gestor-simplificado
     ```
 2.  **Configure as Variáveis de Ambiente:**
-    O projeto utiliza um arquivo `.env` na raiz para configurar o banco de dados e as chaves de segurança. Crie um arquivo chamado `.env` e copie o conteúdo do arquivo `.env.example` (que você deve criar) nele.
+    O projeto utiliza um arquivo `.env` na pasta backend/ para configurar o banco de dados. Navegue até a pasta backend e crie um arquivo `.env` lá, copiando o conteúdo do `.env.example`.
     Exemplo de conteúdo para o seu arquivo `.env`:
     ```
     # Configuração do Banco de Dados PostgreSQL
