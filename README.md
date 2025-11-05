@@ -123,7 +123,7 @@ Pronto! O ambiente está totalmente configurado e em execução.
 
 **📄 Licença**
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://www.google.com/search?q=LICENSE&authuser=1) para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 **👨‍💻 Contato**
 
