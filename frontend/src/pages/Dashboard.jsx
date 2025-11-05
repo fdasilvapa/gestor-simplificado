@@ -24,19 +24,6 @@ const StatCard = ({ title, value, icon: Icon, colorClass }) => (
   </div>
 );
 
-const FilterButton = ({ label, onClick, isActive }) => (
-  <button
-    onClick={onClick}
-    className={`px-4 py-2 rounded-md text-sm font-medium ${
-      isActive
-        ? "bg-green-600 text-white shadow-md"
-        : "bg-white text-gray-700 hover:bg-gray-50"
-    }`}
-  >
-    {label}
-  </button>
-);
-
 function Dashboard() {
   const { user } = useAuth();
   const [summary, setSummary] = useState(null);
