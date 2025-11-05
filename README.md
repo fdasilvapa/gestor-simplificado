@@ -64,9 +64,9 @@ Este projeto não começou pelo código. Antes de tudo, foi feito um levantament
 
 Você pode conferir todos os artefatos de planejamento na [pasta /docs](./docs/) do projeto, incluindo:
 
-* [cite_start]**[Documento de Requisitos (PDF)](./docs/GestorSimplificado-Requisitos.pdf):** Escopo, Requisitos Funcionais e Regras de Negócio[cite: 121].
-* [cite_start]**[Arquitetura do Banco de Dados (PDF)](./docs/GestorSimplificado-ArquiteturaBD.pdf):** Diagrama ERD e definição de todas as tabelas e relacionamentos[cite: 1, 11].
-* [cite_start]**[Roadmap de Desenvolvimento (PDF)](./docs/GestorSimplificado-Roadmap.pdf):** O plano de fases do projeto, da Fase 1 (Docker) à Fase 4 (Dashboard)[cite: 83, 88].
+* **[Documento de Requisitos (PDF)](./docs/GestorSimplificado-Requisitos.pdf):** Escopo, Requisitos Funcionais e Regras de Negócio.
+* **[Arquitetura do Banco de Dados (PDF)](./docs/GestorSimplificado-ArquiteturaBD.pdf):** Diagrama ERD e definição de todas as tabelas e relacionamentos.
+* **[Roadmap de Desenvolvimento (PDF)](./docs/GestorSimplificado-Roadmap.pdf):** O plano de fases do projeto, da Fase 1 (Docker) à Fase 4 (Dashboard).
 
 **🏁 Começando**
 
