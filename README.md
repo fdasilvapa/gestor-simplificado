@@ -90,7 +90,7 @@ Siga as instruções abaixo para executar o projeto em seu ambiente local.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/fdasilvapa/gestor-simplificado.git](https://github.com/fdasilvapa/gestor-simplificado.git)
+    git clone https://github.com/fdasilvapa/gestor-simplificado.git
     cd gestor-simplificado
     ```
 2.  **Configure as Variáveis de Ambiente:**
