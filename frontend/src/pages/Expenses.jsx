@@ -51,7 +51,7 @@ function Expenses() {
       setExpenses(data);
       setError(null);
     } catch (err) {
-      setError(err.message || "Falha ao carregar despesas.");
+      setError(err || "Falha ao carregar despesas.");
     } finally {
       setLoading(false);
     }
@@ -96,7 +96,7 @@ function Expenses() {
       setEditingExpense(null);
       fetchExpenses();
     } catch (err) {
-      setFormError(err.message || "Falha ao salvar despesa.");
+      setFormError(err || "Falha ao salvar despesa.");
     } finally {
       setIsSubmitting(false);
     }
@@ -124,7 +124,7 @@ function Expenses() {
       setExpenseToDelete(null);
       fetchExpenses();
     } catch (err) {
-      toast.error(err.message || "Falha ao excluir despesa.");
+      toast.error(err || "Falha ao excluir despesa.");
     } finally {
       setIsDeleting(false);
     }

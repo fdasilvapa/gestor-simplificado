@@ -39,7 +39,7 @@ function Products() {
       setProducts(data);
       setError(null);
     } catch (err) {
-      setError(err.message || "Falha ao carregar produtos.");
+      setError(err || "Falha ao carregar produtos.");
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ function Products() {
       setEditingProduct(null);
       fetchProducts();
     } catch (err) {
-      setFormError(err.message || "Falha ao salvar produto.");
+      setFormError(err || "Falha ao salvar produto.");
     } finally {
       setIsSubmitting(false);
     }
@@ -112,7 +112,7 @@ function Products() {
       setProductToDelete(null);
       fetchProducts();
     } catch (err) {
-      toast.error(err.message || "Falha ao excluir produto.");
+      toast.error(err || "Falha ao excluir produto.");
     } finally {
       setIsDeleting(false);
     }

@@ -53,7 +53,7 @@ function Dashboard() {
         setSummary(data);
         setError(null);
       } catch (err) {
-        setError(err.message || "Falha ao carregar o resumo.");
+        setError(err || "Falha ao carregar o resumo.");
       } finally {
         setLoading(false);
       }

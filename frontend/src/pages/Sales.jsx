@@ -70,7 +70,7 @@ function Sales() {
       setIsModalOpen(false);
       fetchSales();
     } catch (err) {
-      setFormError(err.message || "Falha ao registrar venda.");
+      setFormError(err || "Falha ao registrar venda.");
     } finally {
       setIsSubmitting(false);
     }
