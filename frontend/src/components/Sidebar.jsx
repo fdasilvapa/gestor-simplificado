@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   LogOut,
   User,
+  Settings as SettingsIcon,
 } from "lucide-react";
 
 const NavItem = ({ to, icon: Icon, children }) => (
@@ -45,6 +46,9 @@ function Sidebar() {
         <ul className="list-none p-0 m-0 space-y-2">
           <NavItem to="/app/dashboard" icon={LayoutDashboard}>
             Dashboard
+          </NavItem>
+          <NavItem to="/app/settings" icon={SettingsIcon}>
+            Configurações
           </NavItem>
           <NavItem to="/app/products" icon={Package}>
             Produtos
