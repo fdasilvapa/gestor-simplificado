@@ -1,17 +1,15 @@
 # Gestor Simplificado 📊
 
-**Acesse a demonstração ao vivo:** **[gestor-simplificado.vercel.app](https://gestor-simplificado.vercel.app/)**
-
-Um sistema web completo para gestão de vendas e despesas, ideal para autônomos e pequenos empreendedores. Este projeto foi construído como um estudo prático de tecnologias modernas, incluindo um ambiente de desenvolvimento totalmente containerizado com Docker e deploy desacoplado no Render e Vercel.
+Um sistema web completo para gestão de vendas e despesas, ideal para autônomos e pequenos empreendedores. Este projeto foi construído como um estudo prático de tecnologias modernas, incluindo um ambiente de desenvolvimento totalmente containerizado com Docker.
 
 **📋 Índice**
 
 * [Sobre o Projeto](#-sobre-o-projeto)
 * [✨ Visuals](#-visuals)
+* [🏛️ Arquitetura de Ecossistema (V2)](#️-arquitetura-de-ecossistema-v2)
 * [✨ Funcionalidades](#-funcionalidades)
 * [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
-* [🏛️ Arquitetura e Planejamento](#️-arquitetura-e-planejamento)
-* [🛰️ Acessando a Aplicação](#-acessando-a-aplicação)
+* [🏛️ Arquitetura e Planejamento (V1)](#️-arquitetura-e-planejamento-v1)
 * [🏁 Começando (Desenvolvimento Local)](#-começando-desenvolvimento-local)
 * [📄 Licença](#-licença)
 * [👨‍💻 Contato](#-contato)
@@ -20,7 +18,7 @@ Um sistema web completo para gestão de vendas e despesas, ideal para autônomos
 
 O **Gestor Simplificado** nasceu da necessidade de criar uma aplicação mais robusta e funcional, aplicando conceitos do mundo real. O objetivo principal é oferecer uma ferramenta simples para que um usuário possa controlar suas finanças, registrando entradas (vendas) e saídas (despesas) para, ao final, visualizar relatórios que ajudem na tomada de decisão.
 
-O ambiente de desenvolvimento é totalmente containerizado com Docker, e o ambiente de produção é hospedado em plataformas modernas (Render e Vercel).
+O ambiente de desenvolvimento é totalmente containerizado com Docker.
 
 **✨ Visuals**
 
@@ -29,6 +27,14 @@ O ambiente de desenvolvimento é totalmente containerizado com Docker, e o ambie
 | ![Dashboard com filtros](./screenshots/dashboard.png) | ![Histórico de Vendas](./screenshots/sales.png) |
 | **Despesas** | **Modal de Venda** |
 | ![Tabela de Despesas](./screenshots/despesas.png) | ![Modal de Registro de Nova Venda](./screenshots/sales-modal.png) |
+
+**🏛️ Arquitetura de Ecossistema (V2)**
+
+Este projeto foi projetado como o "Serviço de Admin" (V1) de um ecossistema de microsserviços. Ele atua como o painel de controle privado e a fonte da verdade para o gerenciamento de produtos e finanças.
+
+Ele expõe uma API segura que é consumida por um segundo projeto (V2), o **E-commerce Público**.
+
+* **[Repositório do E-commerce (V2)](https://github.com/fdasilvapa/gestor-ecommerce)**: A vitrine pública que consome esta API para listar produtos e registrar vendas.
 
 **✨ Funcionalidades**
 
@@ -50,7 +56,6 @@ O projeto foi dividido em duas partes principais:
 * [PostgreSQL](https://www.postgresql.org/)
 * [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
 * [JWT (JSON Web Token)](https://jwt.io/)
-* **Deploy:** [Render.com](https://render.com/)
 
 **Frontend:**
 * [React](https://react.dev/) (com Hooks & Context API)
@@ -59,22 +64,16 @@ O projeto foi dividido em duas partes principais:
 * [React Router](https://reactrouter.com/en/main)
 * [Axios](https://axios-http.com/)
 * [React Hot Toast](https://react-hot-toast.com/)
-* **Deploy:** [Vercel](https://vercel.com/)
 
-**🏛️ Arquitetura e Planejamento**
+**🏛️ Arquitetura e Planejamento (V1)**
 
-Este projeto não começou pelo código. Antes de tudo, foi feito um levantamento de requisitos, um roadmap de desenvolvimento e a modelagem da arquitetura do banco de dados.
+Este projeto não começou pelo código. Antes de tudo, foi feito um levantamento de requisitos, um roadmap de desenvolvimento e a modelagem da arquitetura do banco de dados para a V1.
 
 Você pode conferir todos os artefatos de planejamento na [pasta /docs](./docs/) do projeto, incluindo:
 
 * **[Documento de Requisitos (PDF)](./docs/GestorSimplificado-Requisitos.pdf):** Escopo, Requisitos Funcionais e Regras de Negócio.
 * **[Arquitetura do Banco de Dados (PDF)](./docs/GestorSimplificado-ArquiteturaBD.pdf):** Diagrama ERD e definição de todas as tabelas e relacionamentos.
 * **[Roadmap de Desenvolvimento (PDF)](./docs/GestorSimplificado-Roadmap.pdf):** O plano de fases do projeto, da Fase 1 (Docker) à Fase 4 (Dashboard).
-
-**🛰️ Acessando a Aplicação**
-
-* **URL da Aplicação (Live Demo):** **[https://gestor-simplificado.vercel.app/](https://gestor-simplificado.vercel.app/)**
-* **URL da API (Backend):** **[https://gestor-api-g7do.onrender.com/](https://gestor-api-g7do.onrender.com/)**
 
 **🏁 Começando (Desenvolvimento Local)**
 
@@ -90,7 +89,7 @@ Siga as instruções abaixo para executar o projeto em seu ambiente local.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/fdasilvapa/gestor-simplificado.git
+    git clone [https://github.com/fdasilvapa/gestor-simplificado.git](https://github.com/fdasilvapa/gestor-simplificado.git)
     cd gestor-simplificado
     ```
 2.  **Configure as Variáveis de Ambiente:**
