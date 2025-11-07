@@ -6,6 +6,8 @@ import expenseRoutes from "./routes/expenseRoutes.js";
 import saleRoutes from "./routes/saleRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
+import publicApiRoutes from "./routes/publicApiRoutes.js";
+
 const app = express();
 
 // Middlewares essenciais
@@ -17,11 +19,14 @@ app.use(
   })
 );
 
-// Prefixos das rotas
+// Rotas do Painel de Admin (Protegidas por JWT)
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/sales", saleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+
+// Rotas da API pública (Protegidas por API Key)
+app.use("/api/public", publicApiRoutes);
 
 export default app;
