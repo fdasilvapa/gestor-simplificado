@@ -4,7 +4,7 @@ import {
   getUserProfileData,
   loginUser,
   updateUser,
-  //deleteUser,
+  handleGenerateApiKey,
 } from "../controllers/userController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -18,7 +18,6 @@ router.post("/login", loginUser); // POST /api/users/login
 router.get("/profile", authMiddleware, getUserProfileData); // GET /api/users/profile
 router.patch("/profile", authMiddleware, updateUser); // PATCH /api/users/profile
 
-// Funcionalidade futura
-// router.delete("/:id", deleteUser); // DELETE /api/users/123
+router.post("/api-key", authMiddleware, handleGenerateApiKey);
 
 export default router;
