@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import Expenses from "./pages/Expenses";
 import Sales from "./pages/Sales";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -38,13 +39,14 @@ function App() {
           </Route>
         </Route>
 
-        {/* Páginas principais da aplicação */}
+        {/* Páginas Protegidas da aplicação */}
         <Route element={<ProtectedRoute />}>
           <Route path="/app" element={<MainLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<Products />} />
             <Route path="expenses" element={<Expenses />} />
             <Route path="sales" element={<Sales />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
 
