@@ -47,9 +47,6 @@ function Sidebar() {
           <NavItem to="/app/dashboard" icon={LayoutDashboard}>
             Dashboard
           </NavItem>
-          <NavItem to="/app/settings" icon={SettingsIcon}>
-            Configurações
-          </NavItem>
           <NavItem to="/app/products" icon={Package}>
             Produtos
           </NavItem>
@@ -64,19 +61,30 @@ function Sidebar() {
 
       {/* Menu do usuário */}
       <div className="mt-auto">
-        <div className="flex items-center p-3 mb-2">
-          <User className="w-6 h-6 mr-3 text-gray-500" />
-          <span className="text-gray-800 font-medium">
-            {user?.name || "Usuário"}
-          </span>
-        </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center w-full p-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
-        >
-          <LogOut className="w-5 h-5 mr-3" />
-          Sair
-        </button>
+        <ul className="list-none p-0 m-0 space-y-2">
+          <NavItem to="/app/settings" icon={SettingsIcon}>
+            Configurações
+          </NavItem>
+
+          <li>
+            <div className="flex items-center p-3 mt-2 border-t border-gray-100">
+              <User className="w-6 h-6 mr-3 text-gray-500" />
+              <span className="text-gray-800 font-medium">
+                {user?.name || "Usuário"}
+              </span>
+            </div>
+          </li>
+
+          <li>
+            <button
+              onClick={handleLogout}
+              className="flex items-center w-full p-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+            >
+              <LogOut className="w-5 h-5 mr-3" />
+              Sair
+            </button>
+          </li>
+        </ul>
       </div>
     </aside>
   );
