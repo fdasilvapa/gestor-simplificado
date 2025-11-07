@@ -1,6 +1,7 @@
 import * as userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 export const register = async (userData) => {
   const { email, password, name } = userData;
@@ -111,4 +112,14 @@ export const getUserProfile = async (userId) => {
 
   delete user.password;
   return user;
+};
+
+export const generateApiKey = async (userId) => {
+  const newApiKey = crypto.randomBytes(32).toString("hex");
+
+  const updateUser = await userModel.update(userId, {
+    apiKey: newApiKey,
+  });
+
+  return newApiKey;
 };
