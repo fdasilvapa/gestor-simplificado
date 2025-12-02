@@ -5,7 +5,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../services/productService";
-import { Loader2, Plus, Edit, Trash2 } from "lucide-react";
+import { Loader2, Plus, Edit, Trash2, Image as ImageIcon } from "lucide-react";
 import Modal from "../components/ui/Modal";
 import ConfirmationModal from "../components/ui/ConfirmationModal";
 import ProductForm from "../components/ProductForm";
@@ -153,6 +153,9 @@ function Products() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
+                Imagem
+              </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Nome
               </th>
@@ -171,6 +174,19 @@ function Products() {
             {products.length > 0 ? (
               products.map((product) => (
                 <tr key={product.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.imagePath ? (
+                      <img
+                        src={`http://localhost:3000${product.imagePath}`}
+                        alt={product.name}
+                        className="h-12 w-12 object-cover rounded-md border"
+                      />
+                    ) : (
+                      <div className="h-12 w-12 bg-gray-100 rounded-md flex items-center justify-center border">
+                        <ImageIcon className="w-6 h-6 text-gray-400" />
+                      </div>
+                    )}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {product.name}
                   </td>

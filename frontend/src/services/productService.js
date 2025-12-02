@@ -14,7 +14,7 @@ export const createProduct = async (productData) => {
     const { data } = await api.post("/products", productData);
     return data;
   } catch (error) {
-    throw error.response.data.message || "Erro ao criar produto";
+    throw error.response?.data?.message || "Erro ao criar produto";
   }
 };
 
@@ -23,7 +23,7 @@ export const updateProduct = async (id, updateData) => {
     const { data } = await api.patch(`/products/${id}`, updateData);
     return data;
   } catch (error) {
-    throw error.response.data.message || "Erro ao atualizar produto";
+    throw error.response?.data?.message || "Erro ao atualizar produto";
   }
 };
 
@@ -31,6 +31,6 @@ export const deleteProduct = async (id) => {
   try {
     await api.delete(`/products/${id}`);
   } catch (error) {
-    throw error.response.data.message || "Erro ao deletar produto";
+    throw error.response?.data?.message || "Erro ao deletar produto";
   }
 };

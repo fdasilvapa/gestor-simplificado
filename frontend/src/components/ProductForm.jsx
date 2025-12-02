@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload, X } from "lucide-react";
 
 function ProductForm({
   initialData,
@@ -10,7 +10,16 @@ function ProductForm({
 }) {
   const [name, setName] = useState(initialData?.name || "");
   const [price, setPrice] = useState(initialData?.price ?? "");
-  const [description, setDescription] = useState(initialData?.description || "");
+  const [description, setDescription] = useState(
+    initialData?.description || ""
+  );
+
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(
+    initialData?.imagePath
+      ? `http://localhost:3000${initialData.imagePath}`
+      : null
+  );
 
   const [formErrors, setFormErrors] = useState({});
 
@@ -19,12 +28,42 @@ function ProductForm({
       setName(initialData.name || "");
       setPrice(initialData.price ?? "");
       setDescription(initialData.description || "");
+      if (initialData.imagePath) {
+        setPreview(`http://localhost:3000${initialData.imagePath}`);
+      }
     } else {
       setName("");
       setPrice("");
       setDescription("");
+      setPreview(null);
     }
   }, [initialData]);
+
+  const handleImageChange = (e) => {
+    setFormErrors({});
+
+    const file = e.target.files[0];
+
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setFormErrors({
+          ...formErrors,
+          image: "A imagem é muito grande. Máximo: 5MB.",
+        });
+
+        e.target.value = "";
+        return;
+      }
+
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const removeImage = () => {
+    setImage(null);
+    setPreview(null);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,7 +76,9 @@ function ProductForm({
     }
 
     const priceString = String(price || "");
-    const sanitizedPrice = priceString.replace(",", ".").replace(/[^0-9.]/g, "");
+    const sanitizedPrice = priceString
+      .replace(",", ".")
+      .replace(/[^0-9.]/g, "");
     const numericPrice = parseFloat(sanitizedPrice);
 
     if (isNaN(numericPrice) || numericPrice <= 0) {
@@ -49,15 +90,57 @@ function ProductForm({
       return;
     }
 
-    onSave({
-      name,
-      price: numericPrice,
-      description,
-    });
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", numericPrice);
+    formData.append("description", description);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+    onSave(formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Campo imagem */}
+      <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50 hover:bg-gray-100 transition-colors">
+        {preview ? (
+          <div className="relative">
+            <img
+              src={preview}
+              alt="Preview"
+              className="h-40 w-full object-cover rounded-md"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <label className="flex flex-col items-center cursor-pointer w-full">
+            <Upload className="w-10 h-10 text-gray-400 mb-2" />
+            <span className="text-sm text-gray-500">
+              Clique para enviar uma imagem
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+            />
+          </label>
+        )}
+      </div>
+      {formErrors.image && (
+        <p className="text-sm text-center text-red-600 mt-2 font-medium">
+          {formErrors.image}
+        </p>
+      )}
       {/* Campo nome */}
       <div>
         <label
@@ -142,7 +225,11 @@ function ProductForm({
           {isSubmitting ? (
             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
           ) : null}
-          {isSubmitting ? "Salvando..." : (initialData ? "Atualizar" : "Salvar produto")}
+          {isSubmitting
+            ? "Salvando..."
+            : initialData
+            ? "Atualizar"
+            : "Salvar produto"}
         </button>
       </div>
     </form>
