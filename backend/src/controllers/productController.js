@@ -10,18 +10,18 @@ export const createNewProduct = async (req, res) => {
     }
 
     const productData = {
-      ...req.body,
+      name: req.body.name,
+      description: req.body.description,
       price: parseFloat(req.body.price),
-      image: imagePath,
+      imagePath: imagePath,
+      userId: userId,
     };
 
     const newProduct = await productService.createProduct(productData, userId);
-    res
-      .status(201)
-      .json({
-        message: "Produto cadastrado com sucesso.",
-        product: newProduct,
-      });
+    res.status(201).json({
+      message: "Produto cadastrado com sucesso.",
+      product: newProduct,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -42,14 +42,14 @@ export const updateExistingProduct = async (req, res) => {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
 
-    let updateData = { ...req.body };
+    let updateData = {};
+
+    if (req.body.name) updateData.name = req.body.name;
+    if (req.body.description) updateData.description = req.body.description;
+    if (req.body.price) updateData.price = parseFloat(req.body.price);
 
     if (req.file) {
       updateData.imagePath = `/uploads/${req.file.filename}`;
-    }
-
-    if (updateData.price) {
-      updateData.price = parseFloat(updateData.price);
     }
 
     const updatedProduct = await productService.updateProduct(
@@ -57,12 +57,10 @@ export const updateExistingProduct = async (req, res) => {
       userId,
       updateData
     );
-    res
-      .status(200)
-      .json({
-        message: "Produto atualizado com sucesso.",
-        product: updatedProduct,
-      });
+    res.status(200).json({
+      message: "Produto atualizado com sucesso.",
+      product: updatedProduct,
+    });
   } catch (error) {
     res.status(403).json({ message: error.message });
   }
