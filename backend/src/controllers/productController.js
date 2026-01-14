@@ -1,4 +1,21 @@
 import * as productService from "../services/productService.js";
+import fs from "fs";
+import path from "path";
+
+const deleteFile = (filePath) => {
+  if (!filePath) return;
+
+  const relativePath = filePath.startsWith("/") ? filePath.slice(1) : filePath;
+  const fullPath = path.resolve(process.cwd(), relativePath);
+
+  fs.unlink(fullPath, (err) => {
+    if (err) {
+      console.error(`Erro ao deletar arquivo antigo: ${fullPath}`, err.message);
+    } else {
+      console.log(`Arquivo deletado: ${fullPath}`);
+    }
+  });
+};
 
 export const createNewProduct = async (req, res) => {
   try {
@@ -42,6 +59,15 @@ export const updateExistingProduct = async (req, res) => {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
 
+    const currentProduct = await productService.getProductById(
+      productId,
+      userId
+    );
+
+    if (!currentProduct) {
+      return res.status(404).json({ message: "Produto não encontrado." });
+    }
+
     let updateData = {};
 
     if (req.body.name) updateData.name = req.body.name;
@@ -50,6 +76,10 @@ export const updateExistingProduct = async (req, res) => {
 
     if (req.file) {
       updateData.imagePath = `/uploads/${req.file.filename}`;
+
+      if (currentProduct.imagePath) {
+        deleteFile(currentProduct.imagePath);
+      }
     }
 
     const updatedProduct = await productService.updateProduct(
@@ -70,6 +100,15 @@ export const deleteExistingProduct = async (req, res) => {
   try {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
+
+    const currentProduct = await productService.getProductById(
+      productId,
+      userId
+    );
+
+    if (currentProduct && currentProduct.imagePath) {
+      deleteFile(currentProduct.imagePath);
+    }
 
     await productService.deleteProduct(productId, userId);
     res.status(204).send();
