@@ -53,3 +53,10 @@ Desktop.ini
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
+
+# --- Ignorar Uploads do Backend ---
+# Ignora todos os arquivos dentro da pasta uploads
+backend/uploads/*
+
+# MAS não ignora o arquivo .gitkeep (para garantir que a pasta exista)
+!backend/uploads/.gitkeep
