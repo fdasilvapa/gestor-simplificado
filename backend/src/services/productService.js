@@ -66,3 +66,12 @@ export const deleteProduct = async (productId, userId) => {
     throw error;
   }
 };
+
+export const getProductById = async (productId, userId) => {
+  return await prisma.product.findFirst({
+    where: {
+      id: productId,
+      userId: userId,
+    },
+  });
+};
