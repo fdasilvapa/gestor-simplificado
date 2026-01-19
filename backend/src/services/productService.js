@@ -29,7 +29,7 @@ export const updateProduct = async (productId, userId, updateData) => {
 
   if (product.userId !== userId) {
     throw new Error(
-      "Acesso negado. Você não possui permissão para editar este produto."
+      "Acesso negado. Você não possui permissão para editar este produto.",
     );
   }
 
@@ -49,7 +49,7 @@ export const deleteProduct = async (productId, userId) => {
 
   if (product.userId !== userId) {
     throw new Error(
-      "Acesso negado. Você não possui permissão para deletar este produto."
+      "Acesso negado. Você não possui permissão para deletar este produto.",
     );
   }
 
@@ -59,7 +59,7 @@ export const deleteProduct = async (productId, userId) => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2003") {
         throw new Error(
-          "Este produto não pode ser excluído pois já está associado a uma ou mais vendas."
+          "Este produto não pode ser excluído pois já está associado a uma ou mais vendas.",
         );
       }
     }
@@ -68,10 +68,14 @@ export const deleteProduct = async (productId, userId) => {
 };
 
 export const getProductById = async (productId, userId) => {
-  return await prisma.product.findFirst({
-    where: {
-      id: productId,
-      userId: userId,
-    },
-  });
+  const product = await productModel.findById(productId);
+
+  if (product && product.userId === userId) {
+    return product;
+  }
+  return null;
+};
+
+export const getProductByIdPublic = async (productId) => {
+  return await productModel.findById(productId);
 };

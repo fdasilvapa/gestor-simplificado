@@ -120,9 +120,8 @@ export const deleteExistingProduct = async (req, res) => {
 export const getPublicProductById = async (req, res) => {
   try {
     const productId = parseInt(req.params.id);
-    const product = await prisma.product.findUnique({
-      where: { id: productId },
-    });
+
+    const product = await productService.getProductByIdPublic(productId);
 
     if (!product) {
       return res.status(404).json({ message: "Produto não encontrado" });
